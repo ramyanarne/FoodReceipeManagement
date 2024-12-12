@@ -1,0 +1,40 @@
+<div fxLayout fxLayoutAlign="center center">
+  <mat-form-field fxFlex="20%">
+    <input matInput type="text" (keyup)="doFilter($event)" placeholder="Filter">
+  </mat-form-field>
+</div>
+<table mat-table [dataSource] = "dataSource" matSort>
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let element" (click)="redirectToDetails(element.receipeId)" class="mat-name-column"> {{element.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+      <ng-container matColumnDef="cookingTime">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header> Cooking Time </th>
+        <td mat-cell *matCellDef="let element"> {{element.cookingTime | timeUnit }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef> Update </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="accent" (click)="redirectToUpdate(element.receipeId)">
+              <mat-icon class="mat-18">edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="redirectToDelete(element.receipeId)">
+                <mat-icon class="mat-18">clear</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSize]="6" [pageSizeOptions]="[6, 10, 20]">
+</mat-paginator>

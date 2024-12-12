@@ -1,0 +1,6 @@
+@FoodReceipeManagement_HostAddress = http://localhost:5203
+
+GET {{FoodReceipeManagement_HostAddress}}/foodreceipe/
+Accept: application/json
+
+###

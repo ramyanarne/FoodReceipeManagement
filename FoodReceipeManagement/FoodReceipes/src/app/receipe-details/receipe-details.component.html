@@ -1,0 +1,38 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="700px" fxFlex.xs="100%">
+        <mat-card-title>Receipe Details</mat-card-title>
+        <mat-card-content>
+          <div fxLayout="column wrap" fxLayoutGap="30px">
+            <div fxLayout="row wrap" fxFlex>
+              <div fxFlex><strong>Name:</strong></div>
+              <div fxFlex>{{receipe.name}}</div>
+            </div>
+      
+            <div fxLayout="row wrap" fxFlex>
+              <div fxFlex><strong>Description:</strong></div>
+              <div fxFlex>{{receipe.description}}</div>
+            </div>
+
+            <div fxLayout="row wrap" fxFlex>
+                <div fxFlex><strong>Cooking Time:</strong></div>
+                <div fxFlex>{{receipe.cookingTime | timeUnit }}</div>
+              </div>
+
+              <div>
+                <div><strong>Ingredients:</strong></div>          
+                <ul>
+                    <li *ngFor="let ingredientData of receipe.receipeIngredients">{{ingredientData.quantity  + ' ' + ingredientData.measurementUnit.name + ' ' +ingredientData.ingredient.name}}</li>
+                </ul>
+              </div>
+
+              <div>
+                <div><strong>Instructions:</strong></div>          
+                <ol>
+                    <li *ngFor="let instructionData of receipe.receipeInstructions">{{instructionData.instruction + "."}}</li>
+                </ol>
+              </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+</section>
