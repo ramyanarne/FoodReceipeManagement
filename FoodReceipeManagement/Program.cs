@@ -5,10 +5,13 @@ using FoodReceipeManagement.Core.Manager;
 using FoodReceipeManagement.Core.Repository;
 using FoodReceipeManagement.Extensions;
 using NLog;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 var builder = WebApplication.CreateBuilder(args);
 
 LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
+builder.Configuration.AddAzureAppConfiguration("azureconfigurationendpoint");
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureSqlServerContext(builder.Configuration);
@@ -19,6 +22,11 @@ builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 builder.Services.AddScoped<IMeasurementUnitRepository, MeasurementUnitRepository>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "wwwroot";
+});
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -43,7 +51,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
+app.UseSpaStaticFiles();
 app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
@@ -51,5 +60,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MigrateDatabase();
+
+app.UseSpa(spa => {
+    spa.Options.SourcePath = "wwwroot";
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseAngularCliServer(npmScript: "start");
+    }
+});
 
 app.Run();

@@ -17,7 +17,7 @@ namespace FoodReceipeManagement.Extensions
         }
         public static void ConfigureSqlServerContext(this IServiceCollection services, IConfiguration config)
         {
-            var connectionString = config["ConnectionStrings:sqlConnection"];
+            var connectionString = config["azuresqlserverconnection"];
 
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
         }
